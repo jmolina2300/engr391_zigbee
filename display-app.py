@@ -1,8 +1,8 @@
-#!/bin/env python3
+#!/usr/bin/env python3
 ##
-# Data Plotter
+# Display app
 #
-# This module plots the data from the data file 
+# This module plots the data from the sensor data file 
 #
 ##
 
@@ -32,9 +32,17 @@ def animate(i):
     plt.ylabel('Temperature')
     ax.plot(time,distance)
 
-def Main():
+
+def main():
     ani = animation.FuncAnimation(fig, animate, interval=1000)
+    
+    # Set the window size on startup
+    print ('matplotlib backend:', plt.get_backend())
+    manager = plt.get_current_fig_manager()
+    manager.resize(*manager.window.maxsize())
+    
     plt.show()
     print("done")
 
-Main()
+if __name__ == "__main__" :
+    main()
