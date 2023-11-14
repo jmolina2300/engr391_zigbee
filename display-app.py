@@ -8,7 +8,7 @@
 
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-
+import test_reader
 
 data_file_name = 'sensor_data.txt'
 fig = plt.figure()
@@ -16,8 +16,17 @@ ax = fig.add_subplot(1,1,1)
 
 
 def animate(i):
-    file_data = open(data_file_name,"r").read()
-    dataArray = file_data.split('\n')
+    #file_data = open(data_file_name,"r").read()
+    #dataArray = file_data.split('\n')
+    dataArray = []
+    with open(data_file_name, 'rb') as f:
+        dataArray = test_reader.read_last_20_lines(f)
+
+    if len(dataArray) < 1:
+        print('no dataFile')
+        return
+
+    
     time = []
     distance = []
     for eachLine in dataArray:
@@ -39,7 +48,8 @@ def main():
     # Set the window size on startup
     print ('matplotlib backend:', plt.get_backend())
     manager = plt.get_current_fig_manager()
-    manager.resize(*manager.window.maxsize())
+    #manager.resize(*manager.window.minsize())
+    manager.resize(600,400)
     
     plt.show()
     print("done")
