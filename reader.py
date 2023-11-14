@@ -42,3 +42,6 @@ def test_read_last_20_lines():
         
         print(lines)
         print('Lines read:',len(lines))
+        
+if __name__ == "__main__" :
+    test_read_last_20_lines()

@@ -33,7 +33,6 @@ def main():
         with open(file_name, 'a+') as f:
             line = generate_line(counter)
             f.write(line)
-            write_data(f)
             print(line,end='')
         
         time.sleep(1)
