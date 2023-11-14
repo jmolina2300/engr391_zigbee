@@ -6,7 +6,7 @@ import os
 
 data_file_name = 'sensor_data.txt'
 
-def read_last_20_lines(f) :
+def read_last_n_lines(f,n) :
     
     lines = []
     linecount = 0
@@ -14,7 +14,7 @@ def read_last_20_lines(f) :
     
     # Start out seeking backwards by 2 bytes
     offset = -2
-    while (linecount < 20):
+    while (linecount < n):
     
         try:
             f.seek(offset, os.SEEK_END)
@@ -36,12 +36,12 @@ def read_last_20_lines(f) :
 
     return lines
 
-def test_read_last_20_lines():
+def test_read_last_n_lines():
     with open(data_file_name, 'rb') as f:
-        lines = read_last_20_lines(f)
+        lines = read_last_n_lines(f,20)
         
         print(lines)
         print('Lines read:',len(lines))
         
 if __name__ == "__main__" :
-    test_read_last_20_lines()
+    test_read_last_n_lines()

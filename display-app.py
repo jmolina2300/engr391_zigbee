@@ -19,7 +19,7 @@ def animate(i):
     all_lines = []
     try:
         with open(data_file_name, 'rb') as f:
-            all_lines = reader.read_last_20_lines(f)
+            all_lines = reader.read_last_n_lines(f,25)
     except IOError:
         print('Data file not found')
         return
@@ -45,8 +45,8 @@ def main():
     # Set the window size on startup
     print ('matplotlib backend:', plt.get_backend())
     manager = plt.get_current_fig_manager()
-    #manager.resize(*manager.window.minsize())
-    manager.resize(600,400)
+    manager.resize(*manager.window.maxsize())
+    #manager.resize(600,400)
     
     plt.show()
     print("done")
