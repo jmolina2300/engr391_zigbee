@@ -24,15 +24,23 @@ def read_last_20_lines(f) :
             # If we got here, then we found a line. Save it.
             linecount += 1
             line = f.readline().decode()
+            line = line.rstrip('\n')
             lines.append(line)
             
             # back up by however many bytes just read
             offset -= len(line)
         except OSError: # In case of a one line file
             f.seek(0)
+    
+    
+    lines.reverse()
+    
 
     return lines
 
 with open(data_file_name, 'rb') as f:
     lines = read_last_20_lines(f)
+    
+    
     print(lines)
+    print('Lines read:',len(lines))
