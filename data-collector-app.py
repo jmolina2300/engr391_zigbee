@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import serial
 import time
+from datetime import datetime
 
 
 out_file_name = 'sensor_data.txt'
@@ -21,13 +22,18 @@ def main():
     print('Listening for data on device ' + device + '...')
 
     while True:
-        # read in the line from serial port
+        # read in the raw line from serial port
         line = ser.readline().decode('utf-8').rstrip()
-        line = line + '\n'
+        pieces = line.split(',')
         
         # Verify the data before writing it
-        if len(line) < 2:
+        if len(pieces) < 2:
             continue
+        
+        # Construct the actual line that will be saved to a file
+        value = pieces[1]
+        currdate = datetime.now().isoformat()
+        line = currdate + ',' + value + '\n'
         
         # Write the data to a file
         with open(out_file_name, 'a+') as f:

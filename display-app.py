@@ -14,29 +14,32 @@ data_file_name = 'sensor_data.txt'
 fig = plt.figure()
 ax = fig.add_subplot(1,1,1)
 
+n_readings = 25
+x_axis = [i for i in range(n_readings)]
+all_lines = []
 
 def animate(i):
-    all_lines = []
+    
     try:
         with open(data_file_name, 'rb') as f:
-            all_lines = reader.read_last_n_lines(f,25)
+            all_lines = reader.read_last_n_lines(f,n_readings)
     except IOError:
         print('Data file not found')
         return
 
-    time = []
-    distance = []
+
+    values = []
     for eachLine in all_lines:
         if len(eachLine)>1:
-            x,y = eachLine.split(',')
-            time.append(float(x))
-            distance.append(float(y))
+            # Retrieve data value from each line
+            time,value = eachLine.split(',')
+            values.append(float(value))
             
-
+    
     ax.clear()
-    plt.xlabel('Time')
+    #plt.xlabel('Time')
     plt.ylabel('Temperature')
-    ax.plot(time,distance)
+    ax.plot(x_axis, values)
 
 
 def main():
