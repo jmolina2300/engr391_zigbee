@@ -9,6 +9,9 @@
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import reader
+import numpy as np
+from statistics import stdev
+from statistics import mean
 import globals
 
 data_file_name = globals.DATA_FILE_NAME
@@ -18,6 +21,13 @@ ax = fig.add_subplot(1,1,1)
 n_readings = 25
 x_axis = [i for i in range(n_readings)]
 all_lines = []
+
+def get_limits(values):
+    avg = mean(values)
+    cl = [avg for i in range(0,n_readings)]
+    ucl = avg + 3*stdev(values)
+    lcl = avg - 3*stdev(values)
+    return cl,ucl,lcl
 
 def animate(i):
     
@@ -35,12 +45,22 @@ def animate(i):
             # Retrieve data value from each line
             time,value = eachLine.split(',')
             values.append(float(value))
-            
+    
+    
+    # Create graph limits based on the data we currently have
+    cl,ucl,lcl = get_limits(values)
+    
     
     ax.clear()
-    #plt.xlabel('Time')
-    plt.ylabel('Temperature')
+    
+    # Plot the center line (average) and the actual values
+    ax.set_ylim(lcl,ucl)
+    ax.plot(x_axis, cl, linestyle='--')
     ax.plot(x_axis, values)
+    
+    plt.ylabel('Temperature')
+    
+    
 
 
 def main():
