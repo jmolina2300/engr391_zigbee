@@ -6,10 +6,11 @@
 
 import random
 import time
+import globals
 from math import floor
 
 num_points = 100
-file_name = 'sensor_data.txt'
+file_name = globals.DATA_FILE_NAME
 
 
 def write_data(f) :

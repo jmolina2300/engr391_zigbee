@@ -3,8 +3,9 @@
 ##
 
 import os
+import globals
 
-data_file_name = 'sensor_data.txt'
+data_file_name = globals.DATA_FILE_NAME
 
 def read_last_n_lines(f,n) :
     

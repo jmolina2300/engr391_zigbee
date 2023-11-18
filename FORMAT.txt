@@ -10,21 +10,15 @@
 * Sensor Transmission Format
 **************************************************************************
 
-Attempt 1: (time,value) tuples (CURRENT)
+(identity,value) tuples
 ---------------------------------------------
-0,65
-1,66
-2,66
-3,68
+TEMP001,65
+TEMP001,66
+TEMP001,66
+TEMP001,68
 
 
 
-Attempt 2: (ID,time,value) tuples
----------------------------------------------
-SENSOR1,0,100
-SENSOR1,1,103
-SENSOR1,2,111
-SENSOR1,3,120
 
 
 

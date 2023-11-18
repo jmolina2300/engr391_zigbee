@@ -9,8 +9,9 @@
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import reader
+import globals
 
-data_file_name = 'sensor_data.txt'
+data_file_name = globals.DATA_FILE_NAME
 fig = plt.figure()
 ax = fig.add_subplot(1,1,1)
 

@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 import serial
 import time
+import globals
 from datetime import datetime
 
 
-out_file_name = 'sensor_data.txt'
+out_file_name = globals.DATA_FILE_NAME
 device = '/dev/ttyS0'
 
 
