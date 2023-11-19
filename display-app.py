@@ -22,9 +22,8 @@ n_readings = 25
 x_axis = [i for i in range(n_readings)]
 all_lines = []
 
-def get_limits(values):
-
-    # Compute a 2-point moving range to obtain the UNPL and LNPL
+# Compute limits using a 2-point moving range
+def get_limits_mR(values):
     k = 2
     mR = [0 for i in range(0,len(values) - k + 1)]
     for i in range(0,len(mR)-1):
@@ -37,6 +36,15 @@ def get_limits(values):
     unpl = xbar + (3*mRbar)/1.128
     lnpl = xbar - (3*mRbar)/1.128
     return cl,unpl,lnpl
+
+# Compute limits using mean and +/- 3 sigma
+def get_limits_3sig(values):
+    avg = mean(values)
+    cl = [avg for i in range(0,n_readings)]
+    ul = avg + 3*stdev(values)
+    ll = avg - 3*stdev(values)
+    return cl,ul,ll
+
 
 def animate(i):
     
@@ -57,7 +65,7 @@ def animate(i):
     
     
     # Create graph limits based on the data we currently have
-    cl,unpl,lnpl = get_limits(values)
+    cl,unpl,lnpl = get_limits_3sig(values)
     
     
     ax.clear()
