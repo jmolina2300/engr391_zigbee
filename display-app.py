@@ -23,11 +23,20 @@ x_axis = [i for i in range(n_readings)]
 all_lines = []
 
 def get_limits(values):
-    avg = mean(values)
-    cl = [avg for i in range(0,n_readings)]
-    ucl = avg + 3*stdev(values)
-    lcl = avg - 3*stdev(values)
-    return cl,ucl,lcl
+
+    # Compute a 2-point moving range to obtain the UNPL and LNPL
+    k = 2
+    mR = [0 for i in range(0,len(values) - k + 1)]
+    for i in range(0,len(mR)-1):
+        mR[i] = abs(values[i]-values[i+1])
+    
+    mRbar = mean(mR)
+    
+    xbar = mean(values)
+    cl = [xbar for i in range(0,n_readings)]
+    unpl = xbar + (3*mRbar)/1.128
+    lnpl = xbar - (3*mRbar)/1.128
+    return cl,unpl,lnpl
 
 def animate(i):
     
@@ -48,13 +57,13 @@ def animate(i):
     
     
     # Create graph limits based on the data we currently have
-    cl,ucl,lcl = get_limits(values)
+    cl,unpl,lnpl = get_limits(values)
     
     
     ax.clear()
     
     # Plot the center line (average) and the actual values
-    ax.set_ylim(lcl,ucl)
+    ax.set_ylim(lnpl,unpl)
     ax.plot(x_axis, cl, linestyle='--')
     ax.plot(x_axis, values)
     
