@@ -6,6 +6,7 @@
 #
 ##
 
+import sys
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import reader
@@ -73,14 +74,44 @@ def animate(i):
     # Plot the center line (average) and the actual values
     ax.set_ylim(lnpl,unpl)
     ax.plot(x_axis, cl, linestyle='--')
-    ax.plot(x_axis, values)
+    ax.plot(x_axis, values,color='blue')
     
     plt.ylabel('Temperature')
     
-    
+"""
+get_file_to_monitor
+
+  Sets the file to be continuously monitored for changes and displayed
+  on the plot.
+
+"""
+def get_file_to_monitor():
+    return sys.argv[1]
+
+
+def file_exists(file):
+    exists = False
+    try:
+        with open(file, 'rb') as f:
+            exists = True
+            
+    except IOError:
+        pass
+        
+    return exists
 
 
 def main():
+    if len(sys.argv) < 2:
+        print('Usage: display-app <file.csv>')
+        quit(1)
+    
+    data_file_name = get_file_to_monitor()
+    if not file_exists(data_file_name) :
+        print('No such data file:',data_file_name)
+        quit(1)
+    
+    
     ani = animation.FuncAnimation(fig, animate, interval=1000)
     
     # Set the window size on startup
