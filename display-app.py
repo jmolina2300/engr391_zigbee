@@ -14,6 +14,7 @@ import numpy as np
 from statistics import stdev
 from statistics import mean
 import globals
+from utils import file_exists
 
 data_file_name = globals.DATA_FILE_NAME
 fig = plt.figure()
@@ -89,16 +90,6 @@ def get_file_to_monitor():
     return sys.argv[1]
 
 
-def file_exists(file):
-    exists = False
-    try:
-        with open(file, 'rb') as f:
-            exists = True
-            
-    except IOError:
-        pass
-        
-    return exists
 
 
 def main():
