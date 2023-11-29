@@ -16,7 +16,8 @@ from statistics import mean
 import globals
 from utils import file_exists
 
-data_file_name = globals.DATA_FILE_NAME
+data_file_name = ""
+
 fig = plt.figure()
 ax = fig.add_subplot(1,1,1)
 
@@ -48,13 +49,13 @@ def get_limits_3sig(values):
     return cl,ul,ll
 
 
-def animate(i):
+def animate(i, data_file_name):
     
     try:
         with open(data_file_name, 'rb') as f:
             all_lines = reader.read_last_n_lines(f,n_readings)
     except IOError:
-        print('Data file not found')
+        print('Data file not found:',data_file_name)
         return
 
 
@@ -101,9 +102,19 @@ def main():
     if not file_exists(data_file_name) :
         print('No such data file:',data_file_name)
         quit(1)
+
     
-    
-    ani = animation.FuncAnimation(fig, animate, interval=1000)
+    """
+      Animate the plot
+
+      Inputs: 
+
+        fig - the figure to animate
+        animate - function to call to animate the figure
+        interval - interval in milliseconds between each animation
+        fargs - arguments passed to the animate function
+    """
+    ani = animation.FuncAnimation(fig, animate, interval=1000, fargs=(data_file_name, ))
     
     # Set the window size on startup
     print ('matplotlib backend:', plt.get_backend())
