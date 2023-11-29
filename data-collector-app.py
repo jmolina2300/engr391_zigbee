@@ -9,6 +9,15 @@ out_file_name = globals.DATA_FILE_NAME
 device = '/dev/ttyS0'
 
 
+def valid_identity() :
+    return True
+
+def create_new_csv_file():
+    # If the file is new, then we need to put the header at the top
+    pass
+
+def update_csv_file():
+    pass
 
 def main():
     # Open the serial device file
@@ -30,6 +39,14 @@ def main():
         # Verify the data before writing it
         if len(pieces) < 2:
             continue
+        
+        identity = pieces[0]
+        if not valid_identity(identity) :
+            continue
+        
+        # Assign the output file name as the identity (whatever it is)
+        out_file_name = identity + ".csv"
+        
         
         # Construct the actual line that will be saved to a file
         value = pieces[1]
