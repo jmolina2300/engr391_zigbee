@@ -11,10 +11,10 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import numpy as np
 from utils import read_last_n_lines
+from utils import file_exists
 from statistics import stdev
 from statistics import mean
 import globals
-from utils import file_exists
 
 data_file_name = ""
 
@@ -53,7 +53,7 @@ def animate(i, data_file_name):
     
     try:
         with open(data_file_name, 'rb') as f:
-            all_lines = reader.read_last_n_lines(f,n_readings)
+            all_lines = read_last_n_lines(f,n_readings)
     except IOError:
         print('Data file not found:',data_file_name)
         return
