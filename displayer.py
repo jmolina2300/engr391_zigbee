@@ -9,8 +9,8 @@
 import sys
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-import reader
 import numpy as np
+from utils import read_last_n_lines
 from statistics import stdev
 from statistics import mean
 import globals
