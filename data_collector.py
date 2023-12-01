@@ -12,7 +12,11 @@ device = '/dev/ttyUSB0'
 
 
 def valid_identity(identity) :
-    return True
+    result = False
+    if len(identity) < 32:
+        result = True
+    
+    return result
 
 def create_new_csv_file(file_name):
     # If the file is new, then we need to put the header at the top
