@@ -15,24 +15,37 @@
  */
 #define BUFLEN  64
 
-char *identity = "SENS001";  // hard-coded sensor identity
+String identity1 = "ROOM_600";  // hard-coded sensor identity
+String identity2 = "ROOM_999";
 char outbuf[BUFLEN];
-int  value = 0;
+int  anval = 0;
+int counter = 0;
 
 void setup() 
 {
   Serial.begin(9600);
 }
 
+void sensor_transmit(String identity, double value)
+{
+  // Send the data out to the Xbee
+  Serial.print(identity + ",");
+  Serial.print(value);
+  Serial.print("\n");
+}
+
 void loop() 
 {
-  value = analogRead(A0);  // Read something from a sensor
-  
-  snprintf(outbuf,BUFLEN,"%s,%d\n",
-    identity,
-    value);
-  Serial.print(outbuf);    // Send it out to xbee via serial
-  
+  anval = analogRead(A0);  // Read something from a sensor
+  double val1 = anval;
+  double val2 = anval * 5;
+  if ((counter % 2) == 0) {
+    sensor_transmit(identity1, val1);
+  } else {
+    sensor_transmit(identity2, val2);
+  }
+
   delay(1000);
 
+  counter++;
 }

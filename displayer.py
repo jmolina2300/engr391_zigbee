@@ -6,15 +6,18 @@
 #
 ##
 
+import sys
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-import reader
 import numpy as np
+from utils import read_last_n_lines
 from statistics import stdev
 from statistics import mean
 import globals
+from utils import file_exists
 
-data_file_name = globals.DATA_FILE_NAME
+data_file_name = ""
+
 fig = plt.figure()
 ax = fig.add_subplot(1,1,1)
 
@@ -46,13 +49,13 @@ def get_limits_3sig(values):
     return cl,ul,ll
 
 
-def animate(i):
+def animate(i, data_file_name):
     
     try:
         with open(data_file_name, 'rb') as f:
             all_lines = reader.read_last_n_lines(f,n_readings)
     except IOError:
-        print('Data file not found')
+        print('Data file not found:',data_file_name)
         return
 
 
@@ -73,15 +76,45 @@ def animate(i):
     # Plot the center line (average) and the actual values
     ax.set_ylim(lnpl,unpl)
     ax.plot(x_axis, cl, linestyle='--')
-    ax.plot(x_axis, values)
+    ax.plot(x_axis, values,color='blue')
     
     plt.ylabel('Temperature')
     
-    
+"""
+get_file_to_monitor
+
+  Sets the file to be continuously monitored for changes and displayed
+  on the plot.
+
+"""
+def get_file_to_monitor():
+    return sys.argv[1]
+
+
 
 
 def main():
-    ani = animation.FuncAnimation(fig, animate, interval=1000)
+    if len(sys.argv) < 2:
+        print('Usage: display-app <file.csv>')
+        quit(1)
+    
+    data_file_name = get_file_to_monitor()
+    if not file_exists(data_file_name) :
+        print('No such data file:',data_file_name)
+        quit(1)
+
+    
+    """
+      Animate the plot
+
+      Inputs: 
+
+        fig - the figure to animate
+        animate - function to call to animate the figure
+        interval - interval in milliseconds between each animation
+        fargs - arguments passed to the animate function
+    """
+    ani = animation.FuncAnimation(fig, animate, interval=1000, fargs=(data_file_name, ))
     
     # Set the window size on startup
     print ('matplotlib backend:', plt.get_backend())

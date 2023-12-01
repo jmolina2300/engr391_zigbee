@@ -1,11 +1,20 @@
-##
-# Test reading only the last 20 lines of a data file
-##
+"""
+Shared utility functions for the project
 
+"""
 import os
-import globals
 
-data_file_name = globals.DATA_FILE_NAME
+def file_exists(file):
+    exists = False
+    try:
+        with open(file, 'rb') as f:
+            exists = True
+            
+    except IOError:
+        pass
+        
+    return exists
+
 
 def read_last_n_lines(f,n) :
     
@@ -36,13 +45,3 @@ def read_last_n_lines(f,n) :
     lines.reverse()
 
     return lines
-
-def test_read_last_n_lines():
-    with open(data_file_name, 'rb') as f:
-        lines = read_last_n_lines(f,20)
-        
-        print(lines)
-        print('Lines read:',len(lines))
-        
-if __name__ == "__main__" :
-    test_read_last_n_lines()
