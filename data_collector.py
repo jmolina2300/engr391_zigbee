@@ -47,7 +47,7 @@ def main():
 
     while True:
         # read in the raw line from serial port
-        line = ser.readline().decode('utf-8').rstrip()
+        line = ser.readline().decode('ascii').rstrip()
         pieces = line.split(',')
         
         # Verify the data before writing it
@@ -69,7 +69,7 @@ def main():
         # Construct the actual line that will be saved to a file
         value = float(pieces[1])
         timestamp = datetime.now().isoformat()
-        line = timestamp + ',' + str(value) + '\n'
+        line = timestamp + ',' + str(value) + '\r\n'
         
         # Write the data to a file
         with open(out_file_name, 'a+') as f:
