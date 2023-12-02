@@ -12,15 +12,19 @@ device = '/dev/ttyUSB0'
 
 
 def valid_identity(identity) :
-    result = False
+    
+    # Check for embedded Null byte
     for letter in identity:
-        if letter == 0:
-            result = False
+        if letter == '\0':
+            return False
+    # Check length
+    if len(identity) > 32:
+        return False
     
-    if len(identity) < 32:
-        result = True
+    if not identity.isascii():
+        return False
     
-    return result
+    return True
 
 def create_new_csv_file(file_name):
     # If the file is new, then we need to put the header at the top
