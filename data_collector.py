@@ -13,6 +13,10 @@ device = '/dev/ttyUSB0'
 
 def valid_identity(identity) :
     result = False
+    for letter in identity:
+        if letter == 0:
+            result = False
+    
     if len(identity) < 32:
         result = True
     
@@ -27,6 +31,8 @@ def create_new_csv_file(file_name):
 
 def update_csv_file():
     pass
+
+    
 
 def main():
     if len(sys.argv) < 2:
@@ -46,8 +52,8 @@ def main():
     print('Listening for data on device ' + device + '...')
 
     while True:
-        # read in the raw line from serial port
-        line = ser.readline().decode('ascii').rstrip()
+        # read in one good line from serial port
+        line = serial_device.readline().decode('ascii').rstrip()
         pieces = line.split(',')
         
         # Verify the data before writing it
