@@ -53,7 +53,7 @@ def main():
 
     while True:
         # read in one good line from serial port
-        line = serial_device.readline().decode('ascii').rstrip()
+        line = ser.readline().decode('ascii').rstrip()
         pieces = line.split(',')
         
         # Verify the data before writing it
